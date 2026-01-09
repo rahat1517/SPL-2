@@ -8,7 +8,7 @@ export default function Payments() {
       <div className="bg-white rounded-lg shadow p-6 flex justify-between items-center">
         <div>
           <h2 className="text-lg font-semibold">Semester Fee</h2>
-          <p className="text-gray-600">Spring 2025</p>
+          <p className="text-gray-600">1st Semester</p>
         </div>
 
         <div className="text-right">
@@ -54,21 +54,21 @@ export default function Payments() {
           <tbody>
             <tr className="border-b">
               <td className="py-2">12 Jan 2025</td>
-              <td>Fall 2024</td>
+              <td>1st Semester</td>
               <td>৳ 12,000</td>
               <td className="text-green-600 font-medium">Paid</td>
             </tr>
 
             <tr className="border-b">
               <td className="py-2">15 Aug 2024</td>
-              <td>Summer 2024</td>
+              <td>2nd Semester</td>
               <td>৳ 12,000</td>
               <td className="text-green-600 font-medium">Paid</td>
             </tr>
 
             <tr>
               <td className="py-2">10 Jan 2024</td>
-              <td>Spring 2024</td>
+              <td>3rd Semester</td>
               <td>৳ 12,000</td>
               <td className="text-green-600 font-medium">Paid</td>
             </tr>
