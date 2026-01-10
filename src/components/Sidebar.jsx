@@ -1,36 +1,5 @@
 import { Link } from "react-router-dom";
 
-/*export default function Sidebar({ role }) {
-  return (
-    <div className="w-64 min-h-screen bg-gray-800 text-white p-4">
-      <h2 className="text-xl font-bold mb-6">AcademiX</h2>
-
-      <nav className="space-y-2">
-        <Link to={`/${role}/dashboard`} className="block hover:bg-gray-700 p-2 rounded">
-          Dashboard
-        </Link>
-
-        {role === "student" && (
-          <>
-            <Link to="/student/payments" className="block hover:bg-gray-700 p-2 rounded">
-              Payments
-            </Link>
-            <Link to="/student/notices" className="block hover:bg-gray-700 p-2 rounded">
-              Notices
-            </Link>
-          </>
-        )}
-
-        {role === "admin" && (
-          <Link to="/admin/users" className="block hover:bg-gray-700 p-2 rounded">
-            User Management
-          </Link>
-        )}
-      </nav>
-    </div>
-  );
-}*/
-
 export default function Sidebar({ isOpen, closeSidebar }) {
   return (
     <div
