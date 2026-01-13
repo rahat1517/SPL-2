@@ -1,3 +1,4 @@
+import { useState } from "react";
 const notices = [
   {
     id: 1,
@@ -5,6 +6,8 @@ const notices = [
     date: "10 Feb 2025",
     category: "Examination",
     important: true,
+    details:
+      "Midterm Examination Date has been published for BSSE 13,14,15,16.Routine attached below.",
   },
   {
     id: 2,
@@ -12,6 +15,8 @@ const notices = [
     date: "05 Feb 2025",
     category: "Finance",
     important: false,
+    details:
+      "Important update Semester Fee deadline has been extended.Please go to your payment sections for more updates",
   },
   {
     id: 3,
@@ -19,13 +24,13 @@ const notices = [
     date: "02 Feb 2025",
     category: "General",
     important: true,
+    details:
+      "As per the decion of University Administration,Classes shall remain closed on 21st February.",
   },
 ];
 
 export default function Notices() {
-  const handleClick = () => {
-
-  }
+  const [showNotice, setShowNotice] = useState(false);
   return (
     <div className="space-y-6 max-w-4xl">
       {/* Page Title */}
@@ -58,10 +63,38 @@ export default function Notices() {
                 </p>
               </div>
 
-              <button onClick={handleClick}
-              className="text-blue-600 text-sm hover:underline">
+              <button
+                onClick={() => setShowNotice(true)}
+                className="text-blue-600 text-sm hover:underline"
+              >
                 View
               </button>
+              {showNotice && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                  <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+                    <h2 className="text-xl font-semibold mb-2">
+                      {notice.title}
+                    </h2>
+
+                    <p className="text-sm text-gray-500 mb-4">
+                      {notice.category} • {notice.date}
+                    </p>
+
+                    <p className="text-gray-700 mb-6">
+                      {notice.details}
+                    </p>
+
+                    <div className="text-right">
+                      <button
+                        onClick={() => setShowNotice(false)}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
