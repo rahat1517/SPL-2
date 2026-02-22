@@ -7,6 +7,7 @@ import StudentDashboard from "./pages/Student/StudentDashboard";
 import StudentNotices from "./pages/Student/StudentNotices";
 import StudentPayment from "./pages/Student/StudentPayment";
 import StudentProfile from "./pages/Student/StudentProfile";
+import StudentTestimonial from "./pages/Student/StudentTestimonial"
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ function App() {
           <Route path="dashboard" element={<StudentDashboard />} />
           <Route path="payments" element={<StudentPayment />} />
           <Route path="notices" element={<StudentNotices />} />
+          <Route path="testimonial" element={<StudentTestimonial />} />
         </Route>
       </Routes>
     </BrowserRouter>
