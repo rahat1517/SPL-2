@@ -48,6 +48,14 @@ export default function Sidebar({ isOpen, closeSidebar }) {
         >
           Apply for Testimonial
         </Link>
+
+        <Link
+          to="/student/certificate"
+          className="block hover:bg-gray-700 p-2 rounded"
+          onClick={closeSidebar}
+        >
+          Apply for ECA
+        </Link>
         
       </nav>
     </div>

@@ -7,9 +7,9 @@ import StudentDashboard from "./pages/Student/StudentDashboard";
 import StudentNotices from "./pages/Student/StudentNotices";
 import StudentPayment from "./pages/Student/StudentPayment";
 import StudentProfile from "./pages/Student/StudentProfile";
-import StudentTestimonial from "./pages/Student/StudentTestimonial"
+import StudentTestimonial from "./pages/Student/StudentTestimonial";
 import StudentConfirmation from "./pages/Student/StudentConfirmation";
-import StudentECA from ".pages/Student/StudentECA";
+import StudentActivityCertificate from "./pages/Student/StudentECA";
 function App() {
   return (
     <BrowserRouter>
@@ -27,7 +27,7 @@ function App() {
           <Route path="notices" element={<StudentNotices />} />
           <Route path="testimonial" element={<StudentTestimonial />} />
           <Route path="confirmation" element={<StudentConfirmation />} />
-          <Route path="certificate" element={<StudentECA />} />
+          <Route path="certificate" element={<StudentActivityCertificate />} />
         </Route>
       </Routes>
     </BrowserRouter>
