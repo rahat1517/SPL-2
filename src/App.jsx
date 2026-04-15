@@ -6,7 +6,6 @@ import Login from "./pages/Auth/Login";
 import OtpVerification from "./pages/Auth/OtpVerification";
 import Register from "./pages/Auth/Register";
 import Submission from "./pages/Auth/Submission";
-import StudentLayout from "./layouts/StudentLayout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import StaffDashboard from "./pages/Staff/StaffDashboard";
 import StudentConfirmation from "./pages/Student/StudentConfirmation";
@@ -17,8 +16,16 @@ import StudentPayment from "./pages/Student/StudentPayment";
 import StudentProfile from "./pages/Student/StudentProfile";
 import StudentTestimonial from "./pages/Student/StudentTestimonial";
 
+import TeacherProfile from "./pages/Teacher/TeacherProfile";
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard";
 import MainLayout from "./layouts/MainLayout";
+import BudgetConfirmation from "./pages/Teacher/BudgetConfirmation";
+import ECAConfirmation from "./pages/Teacher/ECAConfirmation";
+import TeacherNotices from "./pages/Teacher/TeacherNotices";
+import StaffProfile from "./pages/Staff/StaffProfile";
+import StaffNotices from "./pages/Staff/StaffNotices";
+import StaffTestimonial from "./pages/Staff/StaffTestimonial";
+
 
 function App() {
   return (
@@ -51,6 +58,17 @@ function App() {
 
         <Route path="/teacher" element={<MainLayout />}>
           <Route path="dashboard" element={<TeacherDashboard />} />
+          <Route path="profile" element={<TeacherProfile />} />
+          <Route path="budgetconfirmation" element={<BudgetConfirmation />} />
+          <Route path="ecaconfirmation" element={<ECAConfirmation />} />
+          <Route path="notices" element={<TeacherNotices />} />
+        </Route>
+
+        <Route path="/staff" element={<MainLayout />}>
+          <Route path="dashboard" element={<StaffDashboard />} />
+          <Route path="profile" element={<StaffProfile />} />
+          <Route path="staffnotices" element={<StaffNotices />} />
+          <Route path="testimonial" element={<StaffTestimonial />} />
         </Route>
 
         <Route

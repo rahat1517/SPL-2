@@ -1,5 +1,7 @@
-import { useState } from "react";
-const notices = [
+import { useEffect, useMemo, useState } from "react";
+import { readTeacherNotices } from "../../utils/noticeService";
+
+const authorityNotices = [
   {
     id: 1,
     title: "Midterm Examination Schedule Published",
@@ -30,7 +32,36 @@ const notices = [
 ];
 
 export default function Notices() {
-  const [showNotice, setShowNotice] = useState(false);
+  const [selectedNotice, setSelectedNotice] = useState(null);
+  const [teacherNotices, setTeacherNotices] = useState([]);
+
+  useEffect(() => {
+    const loadTeacherNotices = () => {
+      setTeacherNotices(readTeacherNotices());
+    };
+
+    loadTeacherNotices();
+    window.addEventListener("academix-teacher-notices-changed", loadTeacherNotices);
+
+    return () => {
+      window.removeEventListener("academix-teacher-notices-changed", loadTeacherNotices);
+    };
+  }, []);
+
+  const notices = useMemo(() => {
+    const mappedTeacherNotices = teacherNotices.map((notice) => ({
+      id: notice.id,
+      title: notice.title,
+      date: notice.date,
+      category: "Teacher Notice",
+      important: false,
+      details: notice.body,
+      audience: (notice.audiences || []).join(", "),
+    }));
+
+    return [...mappedTeacherNotices, ...authorityNotices];
+  }, [teacherNotices]);
+
   return (
     <div className="space-y-6 max-w-4xl">
       <h1 className="text-2xl font-semibold">Notices</h1>
@@ -63,39 +94,45 @@ export default function Notices() {
               </div>
 
               <button
-                onClick={() => setShowNotice(true)}
+                onClick={() => setSelectedNotice(notice)}
                 className="text-blue-600 text-sm hover:underline"
               >
                 View
               </button>
-              {showNotice && (
-                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                  <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
-                    <h2 className="text-xl font-semibold mb-2">
-                      {notice.title}
-                    </h2>
-
-                    <p className="text-sm text-gray-500 mb-4">
-                      {notice.category} • {notice.date}
-                    </p>
-
-                    <p className="text-gray-700 mb-6">
-                      {notice.details}
-                    </p>
-
-                    <div className="text-right">
-                      <button
-                        onClick={() => setShowNotice(false)}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           ))}
+        </div>
+      )}
+
+      {selectedNotice && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+            <h2 className="text-xl font-semibold mb-2">
+              {selectedNotice.title}
+            </h2>
+
+            <p className="text-sm text-gray-500 mb-2">
+              {selectedNotice.category} • {selectedNotice.date}
+            </p>
+            {selectedNotice.audience && (
+              <p className="text-sm text-gray-500 mb-4">
+                Audience: {selectedNotice.audience}
+              </p>
+            )}
+
+            <p className="text-gray-700 mb-6">
+              {selectedNotice.details}
+            </p>
+
+            <div className="text-right">
+              <button
+                onClick={() => setSelectedNotice(null)}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

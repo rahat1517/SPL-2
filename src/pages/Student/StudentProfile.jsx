@@ -1,13 +1,15 @@
-import { useState } from "react";
+
 
 export default function Profile() {
-  const [isEditing, setIsEditing] = useState(false);
-  const [showMessage,setShowMessage] = useState(false);
-  const [phone,setPhone] = useState("01954-340973");
-  const handleChanges = () => {
-    setIsEditing(false);
-    setShowMessage(false);
+  const studentInfo = {
+    name : "Nafiz Mahmud Fardin",
+    email : "bsse1528@iit.du.ac.bd",
+    phone : "01954340973",
+    roll : "1528",
+    reg : "2022716325",
+    Year : "BSSE-2nd Year"
   }
+  
   return (
     <div className="max-w-4xl space-y-6">
       {/* Page Title */}
@@ -22,20 +24,14 @@ export default function Profile() {
 
         {/* Basic Info */}
         <div>
-          <h2 className="text-xl font-semibold">Nafiz Mahmud Fardin</h2>
+          <h2 className="text-xl font-semibold">{studentInfo.name}</h2>
           <p className="text-gray-600">BSc in Software Engineering</p>
-          <p className="text-sm text-gray-500">Institute of Information Technology,<br /> University of Dhaka</p>
+          <p className="text-sm text-gray-500">
+            Institute of Information Technology,
+            <br /> University of Dhaka
+          </p>
         </div>
 
-        {/* Edit Button */}
-        <div className="ml-auto">
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            {isEditing ? "Cancel" : "Change Contact Number"}
-          </button>
-        </div>
       </div>
 
       {/* Profile Details */}
@@ -49,10 +45,8 @@ export default function Profile() {
             <input
               type="email"
               disabled
-              value="bsse1528@iit.du.ac.bd"
-              className={`w-full mt-1 p-2 border rounded ${
-                !isEditing && "bg-gray-100"
-              }`}
+              value={studentInfo.email}
+              className="w-full mt-1 p-2 border rounded bg-gray-100"
             />
           </div>
 
@@ -61,12 +55,10 @@ export default function Profile() {
             <label className="text-sm text-gray-500">Phone</label>
             <input
               type="text"
-              disabled={!isEditing}
-              value={phone}
-              onChange={(e)=> setPhone(e.target.value)}
-              className={`w-full mt-1 p-2 border rounded ${
-                !isEditing && "bg-gray-100"
-              }`}
+              disabled
+              value={studentInfo.phone}
+              
+              className="w-full mt-1 p-2 border rounded bg-gray-100"
             />
           </div>
 
@@ -76,7 +68,7 @@ export default function Profile() {
             <input
               type="text"
               disabled
-              value="BSSE 1528"
+              value={studentInfo.roll}
               className="w-full mt-1 p-2 border rounded bg-gray-100"
             />
           </div>
@@ -89,7 +81,7 @@ export default function Profile() {
             <input
               type="text"
               disabled
-              value="2022716325"
+              value={studentInfo.reg}
               className="w-full mt-1 p-2 border rounded bg-gray-100"
             />
           </div>
@@ -107,49 +99,15 @@ export default function Profile() {
 
           {/* Batch */}
           <div>
-            <label className="text-sm text-gray-500">Batch</label>
+            <label className="text-sm text-gray-500">Year</label>
             <input
               type="text"
               disabled
-              value="15th"
+              value={studentInfo.Year}
               className="w-full mt-1 p-2 border rounded bg-gray-100"
             />
           </div>
         </div>
-
-        {/* Save Button */}
-        {isEditing && (
-          <div className="mt-6 text-right">
-            <button onClick={() => setShowMessage(true)} className="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-              Save Changes
-            </button>
-          </div>
-        )}
-        {showMessage && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-80 shadow-lg">
-            <h2 className="text-lg font-semibold mb-4">Confirm Changes</h2>
-            <p className="text-gray-600 mb-6">
-              Are you sure you want to save the changes?
-            </p>
-
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setShowMessage(false)}
-                className="px-4 py-2 border rounded hover:bg-gray-100"
-              >
-                No
-              </button>
-              <button
-                onClick={handleChanges}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              >
-                Yes
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
       </div>
     </div>
   );
