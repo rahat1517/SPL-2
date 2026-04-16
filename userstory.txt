@@ -1,0 +1,65 @@
+AcademiX is a web-based application for the automation of academic, financial and
+administrative activities of the Institute of Information Technology,University of Dhaka. This is a
+system that can support four types of user roles, including Student, Teacher, Staff, and Super
+Admin. Each of these will have different features, responsibilities, and access privileges.
+User Registration & Access Control :
+All users are required to register with the system using their official IIT email address before
+accessing it. During registration the user needs to:
+● Select their role: Student or Teacher or Staff or Super Admin.
+● Personal information provided should include:
+○ First Name
+○ Last Name
+○ Email
+○ Phone Number
+○ Required credential information
+○ Roll No and Registration Number if user is student
+
+After proper submission of Informations the users shall be given a one time code to their email
+and if the code is verified then the user shall be able to access the system.The Super Admin
+shall give the user the required access and the role of the system.The Super Admin has full
+authority to manage role-based access for every user.
+Student Dashboard & Features :
+Once a student's registration has been verified and approved, they can log in and access their
+personal dashboard. A student can:
+Academic & Administrative Activities :
+● View Profile
+● Apply for a testimonial and pay the necessary fees.
+● Apply for Budget
+● Apply for Extra-Curriculum Activity Certificate
+Financial Activities
+● Pay semester tuition fees if eligible.
+● View all past payment records.
+● Download/receive payment receipts.
+Notices
+● View Notices given by IIT authority/teachers
+
+Teacher Dashboard & Features
+After the registration is done, the teacher can log in and access their personal dashboard. A
+teacher is able to:
+Student Management :
+● Check which of the students have paid fees and which do not.
+● Budget Confirmation
+Notice:
+● Send notices to students
+Staff Dashboard & Features
+Staff members receive their personal dashboard after approval of their registration. They can:
+Financial Verification :
+● Verify all payment transactions made by the students.
+● Send Notices to students
+● Testimonial Generation
+● ECA Certificate Generation
+● Allocate Payment schedules to Students
+Document Verification :
+● Testimonial information should be verified.
+● Preparation and issue of the official testimonial to students.
+Super Admin Dashboard & Features :
+Super Admin is the most powerful role within the system and has full access to all modules and
+operations.
+User & Role Management :
+● Approve, reject or edit student, teacher and staff accounts.
+● Manage and control role-based permissions and access levels.
+● Monitor the activities of all users across the system.
+Full-featured System Monitoring :
+● Oversee the entire workflow of the system.
+● Perform all duties that can be executed by teacher and staff roles.
+All the users in the system can reset their password in the login page of the system.
