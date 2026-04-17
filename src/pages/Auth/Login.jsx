@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAuth } from "../../store/authstore";
-import {
-  getDashboardPathByRole,
-  getDemoAccounts,
-  loginUser,
-} from "../../utils/mockAuthService";
+import { loginUser } from "../../api/authService";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,32 +10,57 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const demoAccounts = getDemoAccounts();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const getDashboardPathByRole = (role) => {
+    switch (role) {
+      case "student":
+        return "/student/dashboard";
+      case "teacher":
+        return "/teacher/dashboard";
+      case "staff":
+        return "/staff/dashboard";
+      case "superadmin":
+        return "/admin/dashboard";
+      default:
+        return "/login";
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
+    setIsSubmitting(true);
 
     setError("");
 
-    const res = loginUser({ email, password });
+    const res = await loginUser({ email, password });
 
     if (!res.ok) {
-      setSuccess("");
+      setIsSubmitting(false);
+      const message = (res.message || "").toLowerCase();
+      if (
+        message.includes("verify otp") ||
+        message.includes("verify your otp") ||
+        message.includes("please verify otp") ||
+        message.includes("please verify")
+      ) {
+        navigate("/verify-otp", {
+          state: { email },
+        });
+        return;
+      }
+
       setError(res.message);
       return;
     }
 
     loginAuth(res.user, res.token);
-    localStorage.setItem("role",res.user.role);
+    localStorage.setItem("role", res.user.role);
     setSuccess("Login successful! Redirecting...");
 
-    setTimeout(() => navigate(getDashboardPathByRole(res.user.role)), 1000);
-  };
-  const fillDemoAccount = (account) => {
-    setEmail(account.email);
-    setPassword(account.password);
-    setError("");
-    setSuccess(`${account.role} demo account loaded.`);
+    setTimeout(() => navigate(getDashboardPathByRole(res.user.role)), 700);
   };
 
   return (
@@ -78,12 +99,13 @@ export default function Login() {
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition"
+            disabled={isSubmitting}
+            className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition disabled:bg-blue-300 disabled:cursor-not-allowed"
           >
-            Login
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
-        
+
         <p className="text-center text-sm mt-4">
           <Link to="/forgot-password" className="text-blue-600 hover:underline">
             Forgot password?

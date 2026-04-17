@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../../utils/mockAuthService";
+import { registerUser } from "../../api/authService";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ export default function Register() {
     phone: "",
     regNo: "",
     rollNo: "",
+    batch: "",
     password: "",
   });
 
@@ -23,13 +24,23 @@ export default function Register() {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!role || !formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.password) {
+    if (
+      !role ||
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.password
+    ) {
       setError("Please fill all required fields.");
       return;
     }
-    if (!formData.email.endsWith("@du.ac.bd") && !formData.email.endsWith("@iit.du.ac.bd")) {
+    if (
+      !formData.email.endsWith("@du.ac.bd") &&
+      !formData.email.endsWith("@iit.du.ac.bd")
+    ) {
       setError("Please use your official DU/IIT email address.");
       return;
     }
@@ -38,8 +49,7 @@ export default function Register() {
       setError("Phone number is invalid.");
       return;
     }
-   
-    
+
     if (formData.password.length < 8 || formData.password.length > 15) {
       setError("Password must be between 8-15 characters.");
       return;
@@ -57,26 +67,37 @@ export default function Register() {
         setError("Registration number must be exactly 10 digits");
         return;
       }
+      if(!formData.batch){
+        setError("Please select your Year");
+        return;
+      }
+
     }
-    const response = registerUser({ ...formData, role });
+    const response = await registerUser({ ...formData, role });
     if (!response.ok) {
       setError(response.message);
       return;
     }
 
     navigate("/submission", {
-      state: { email: response.email, otp: response.otp },
+      state: { email: response.email },
     });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-xl bg-white p-6 rounded-xl shadow">
-        <h2 className="text-2xl font-bold mb-4 text-center">AcademiX Registration</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          AcademiX Registration
+        </h2>
 
         <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
-          {error && <div className="col-span-2 bg-red-100 text-red-700 p-2 rounded text-sm">{error}</div>}
-           <input
+          {error && (
+            <div className="col-span-2 bg-red-100 text-red-700 p-2 rounded text-sm">
+              {error}
+            </div>
+          )}
+          <input
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
@@ -135,6 +156,20 @@ export default function Register() {
                 className="p-3 border rounded"
                 placeholder="Roll Number (4 digit) *"
               />
+              <select
+                name="batch"
+                value={formData.batch}
+                onChange={handleChange}
+                className="p-3 border rounded col-span-2"
+              >
+                <option value="">Select Batch</option>
+                <option value="2020-21">BSSE 1st Year</option>
+                <option value="2021-22">BSSE 2nd Year</option>
+                <option value="2022-23">BSSE 3rd Year</option>
+                <option value="2023-24">BSSE 4th Year</option>
+                <option value="2024-25">MSSE 1st Year</option>
+                <option value="2025-36">MSSE 2nd Year</option>
+              </select>
             </>
           )}
 
@@ -167,4 +202,4 @@ export default function Register() {
       </div>
     </div>
   );
-};
+}

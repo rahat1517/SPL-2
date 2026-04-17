@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { resetPassword } from "../../utils/mockAuthService";
+import { resetPassword } from "../../api/authService";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function ForgotPassword() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -19,7 +19,7 @@ export default function ForgotPassword() {
       return;
     }
 
-    const res = resetPassword({ email, newPassword });
+    const res = await resetPassword({ email, newPassword });
     if (!res.ok) {
       setMessage("");
       setError(res.message);
@@ -35,16 +35,48 @@ export default function ForgotPassword() {
       <div className="w-full max-w-sm bg-white p-6 rounded-xl shadow">
         <h2 className="text-2xl font-bold mb-4 text-center">Reset Password</h2>
 
-        {error && <p className="bg-red-100 text-red-700 p-2 rounded mb-3 text-sm">{error}</p>}
-        {message && <p className="bg-green-100 text-green-700 p-2 rounded mb-3 text-sm">{message}</p>}
+        {error && (
+          <p className="bg-red-100 text-red-700 p-2 rounded mb-3 text-sm">
+            {error}
+          </p>
+        )}
+        {message && (
+          <p className="bg-green-100 text-green-700 p-2 rounded mb-3 text-sm">
+            {message}
+          </p>
+        )}
 
         <form className="space-y-3" onSubmit={handleSubmit}>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-3 border rounded" placeholder="Registered email" required />
-          <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full p-3 border rounded" placeholder="New password" required />
-          <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">Update Password</button>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 border rounded"
+            placeholder="Registered email"
+            required
+          />
+          <input
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="w-full p-3 border rounded"
+            placeholder="New password"
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700"
+          >
+            Update Password
+          </button>
         </form>
 
-        <p className="text-center text-sm mt-4">Back to <Link to="/login" className="text-blue-600 hover:underline">login</Link></p>
+        <p className="text-center text-sm mt-4">
+          Back to{" "}
+          <Link to="/login" className="text-blue-600 hover:underline">
+            login
+          </Link>
+        </p>
       </div>
     </div>
   );

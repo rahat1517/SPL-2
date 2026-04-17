@@ -1,8 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({
+  path: path.resolve(__dirname, ".env"),
+});
 
-const db = require("./config/db");
+const { testConnection } = require("./config/db");
+const initDb = require("./config/initDb");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -13,8 +18,17 @@ app.get("/", (req, res) => {
   res.send("AcademiX Backend Running");
 });
 
-const PORT = 5000;
+app.use("/api/auth", authRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
+
+const bootstrap = async () => {
+  await testConnection();
+  await initDb();
+
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+};
+
+bootstrap();

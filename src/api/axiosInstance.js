@@ -1,15 +1,23 @@
-import axios from "axios";
-import { useAuthStore } from "../store/authStore";
-import { getAuthState } from "../store/authstore";
 
-const api = axios.create({
-  baseURL: "http://localhost:5000/api",
-});
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
+const request = async (path, options = {}) => {
+  const auth = JSON.parse(localStorage.getItem("academix-auth") || "{}");
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {}),
+  };
+  if (auth.token) {
+    headers.Authorization = `Bearer ${auth.token}`;
+  }
 
-api.interceptors.request.use((config) => {
-  const token = getAuthState().token;
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
+    headers,
+  });
 
-export default api;
+  return response;
+};
+
+export default {
+  post: (path, body) => request(path, { method: "POST", body: JSON.stringify(body) }),
+};
