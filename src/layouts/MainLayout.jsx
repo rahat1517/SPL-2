@@ -1,37 +1,36 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 export default function MainLayout() {
-  const role = localStorage.getItem("role");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const role = String(localStorage.getItem("role") || "")
+    .trim()
+    .toLowerCase();
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    setIsSidebarOpen((prev) => !prev);
   };
 
   const closeSidebar = () => {
-    setIsOpen(false);
+    setIsSidebarOpen(false);
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
+      <Navbar role={role} toggleSidebar={toggleSidebar} />
 
       <Sidebar
         role={role}
-        isOpen={isOpen}
+        isOpen={isSidebarOpen}
         closeSidebar={closeSidebar}
       />
 
-      <div className="flex-1 flex flex-col">
-        <Navbar role={role} toggleSidebar={toggleSidebar} />
-
-        <div className="p-6">
-          <Outlet />
-        </div>
-      </div>
+      <main className="p-6">
+        <Outlet />
+      </main>
     </div>
   );
 }

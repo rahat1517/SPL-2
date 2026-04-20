@@ -39,7 +39,8 @@ export default function Register() {
     }
     if (
       !formData.email.endsWith("@du.ac.bd") &&
-      !formData.email.endsWith("@iit.du.ac.bd")
+      !formData.email.endsWith("@iit.du.ac.bd")&&
+      !formData.email.endsWith("@it.du.ac.bd")
     ) {
       setError("Please use your official DU/IIT email address.");
       return;
@@ -163,12 +164,12 @@ export default function Register() {
                 className="p-3 border rounded col-span-2"
               >
                 <option value="">Select Batch</option>
-                <option value="2020-21">BSSE 1st Year</option>
-                <option value="2021-22">BSSE 2nd Year</option>
-                <option value="2022-23">BSSE 3rd Year</option>
-                <option value="2023-24">BSSE 4th Year</option>
-                <option value="2024-25">MSSE 1st Year</option>
-                <option value="2025-36">MSSE 2nd Year</option>
+                <option value="BSSE 1st Year">BSSE 1st Year</option>
+                <option value="BSSE 2nd Year">BSSE 2nd Year</option>
+                <option value="BSSE 3rd Year">BSSE 3rd Year</option>
+                <option value="BSSE 4th Year">BSSE 4th Year</option>
+                <option value="MSSE 1st Year">MSSE 1st Year</option>
+                <option value="MSSE 2nd Year">MSSE 2nd Year</option>
               </select>
             </>
           )}

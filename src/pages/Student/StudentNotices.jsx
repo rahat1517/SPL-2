@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { readTeacherNotices } from "../../utils/noticeService";
+import MainLayout from "../../layouts/MainLayout";
 
 const authorityNotices = [
   {
@@ -63,6 +64,7 @@ export default function Notices() {
   }, [teacherNotices]);
 
   return (
+    
     <div className="space-y-6 max-w-4xl">
       <h1 className="text-2xl font-semibold">Notices</h1>
 

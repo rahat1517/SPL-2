@@ -1,8 +1,8 @@
 const crypto = require("crypto");
 
-const OTP_EXPIRY_MINUTES = 5;
+const OTP_EXPIRY_MINUTES = 2;
 const OTP_MAX_ATTEMPTS = 5;
-const OTP_RESEND_COOLDOWN_SECONDS = 60;
+const OTP_RESEND_COOLDOWN_SECONDS = 120;
 
 const hashOtp = (otp) =>
   crypto.createHash("sha256").update(String(otp)).digest("hex");

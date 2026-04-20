@@ -1,29 +1,100 @@
 const { pool } = require("./db");
+const { hashPassword } = require("../utils/authUtils");
+
+const seedSuperAdmin = async () => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT id FROM users WHERE role = 'superadmin' LIMIT 1"
+    );
+
+    if (rows.length > 0) {
+      console.log("Super Admin already exists");
+      return;
+    }
+
+    const email = process.env.SUPERADMIN_EMAIL || "admin@du.ac.bd";
+    const password = process.env.SUPERADMIN_PASSWORD || "iitadmin123";
+
+    const passwordHash = hashPassword(password);
+
+    await pool.query(
+      `INSERT INTO users
+      (
+        first_name,
+        last_name,
+        email,
+        phone,
+        role,
+        password_hash,
+        status,
+        is_verified
+      )
+      VALUES (?, ?, ?, ?, ?, ?, 'approved', 1)`,
+      ["Super", "Admin", email, "0000000000", "superadmin", passwordHash]
+    );
+
+    console.log("Super Admin created successfully");
+  } catch (error) {
+    console.error("Error creating super admin:", error);
+  }
+};
 
 const initDb = async () => {
-  const createUsersTableQuery = `
-    CREATE TABLE IF NOT EXISTS users (
-      id BIGINT PRIMARY KEY AUTO_INCREMENT,
-      first_name VARCHAR(80) NOT NULL,
-      last_name VARCHAR(80) NOT NULL,
-      email VARCHAR(255) NOT NULL UNIQUE,
-      phone VARCHAR(20) NOT NULL,
-      role ENUM('student', 'teacher', 'staff', 'superadmin') NOT NULL,
-      reg_no VARCHAR(20) NULL,
-      roll_no VARCHAR(20) NULL,
-      password_hash VARCHAR(255) NOT NULL,
-      status ENUM('pending', 'approved') NOT NULL DEFAULT 'pending',
-      is_verified TINYINT(1) NOT NULL DEFAULT 0,
-      otp_hash VARCHAR(255) NULL,
-      otp_expires_at DATETIME NULL,
-      otp_attempts INT NOT NULL DEFAULT 0,
-      otp_last_sent_at DATETIME NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `;
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id BIGINT PRIMARY KEY AUTO_INCREMENT,
 
-  await pool.query(createUsersTableQuery);
+        first_name VARCHAR(80) NOT NULL,
+        last_name VARCHAR(80) NOT NULL,
+
+        email VARCHAR(255) NOT NULL UNIQUE,
+        phone VARCHAR(20) NOT NULL,
+
+        role ENUM('student', 'teacher', 'staff', 'superadmin') NOT NULL,
+
+        reg_no VARCHAR(20) NULL,
+        roll_no VARCHAR(20) NULL,
+        batch VARCHAR(20) NULL,
+
+        password_hash VARCHAR(255) NOT NULL,
+
+        status ENUM('pending', 'approved') NOT NULL DEFAULT 'pending',
+        is_verified TINYINT(1) NOT NULL DEFAULT 0,
+
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS otps (
+        id BIGINT PRIMARY KEY AUTO_INCREMENT,
+
+        email VARCHAR(255) NOT NULL,
+        otp_hash VARCHAR(255) NOT NULL,
+
+        purpose ENUM('register','forgot_password') NOT NULL,
+
+        expires_at DATETIME NOT NULL,
+        attempts INT NOT NULL DEFAULT 0,
+        last_sent_at DATETIME,
+
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    await pool.query(`
+      CREATE INDEX IF NOT EXISTS idx_email_purpose 
+      ON otps(email, purpose);
+    `).catch(() => {}); 
+
+    await seedSuperAdmin();
+
+    console.log("Database initialized successfully");
+  } catch (error) {
+    console.error("DB Init Error:", error);
+  }
 };
 
 module.exports = initDb;

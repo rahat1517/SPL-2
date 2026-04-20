@@ -69,13 +69,132 @@ const postJson = async (path, body) => {
   );
 };
 
+const getJson = async (path) => {
+  let lastResult = null;
+  let lastError = null;
+
+  for (const baseUrl of baseUrlCandidates) {
+    try {
+      const response = await fetch(`${baseUrl}${path}`, {
+        method: "GET",
+        headers: getAuthHeaders(),
+      });
+
+      const result = await parseResponse(response);
+
+      if (result.ok) return result;
+
+      lastResult = result;
+
+      if (response.status === 404) continue;
+
+      return result;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  return (
+    lastResult || {
+      ok: false,
+      message: "Cannot reach backend.",
+      details: lastError?.message,
+    }
+  );
+};
+
+const putJson = async (path, body) => {
+  let lastResult = null;
+  let lastError = null;
+
+  for (const baseUrl of baseUrlCandidates) {
+    try {
+      const response = await fetch(`${baseUrl}${path}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(body),
+      });
+
+      const result = await parseResponse(response);
+
+      if (result.ok) return result;
+
+      lastResult = result;
+
+      if (response.status === 404) continue;
+
+      return result;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  return (
+    lastResult || {
+      ok: false,
+      message: "Cannot reach backend.",
+      details: lastError?.message,
+    }
+  );
+};
+
+const deleteJson = async (path) => {
+  let lastResult = null;
+  let lastError = null;
+
+  for (const baseUrl of baseUrlCandidates) {
+    try {
+      const response = await fetch(`${baseUrl}${path}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+
+      const result = await parseResponse(response);
+
+      if (result.ok) return result;
+
+      lastResult = result;
+
+      if (response.status === 404) continue;
+
+      return result;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  return (
+    lastResult || {
+      ok: false,
+      message: "Cannot reach backend.",
+      details: lastError?.message,
+    }
+  );
+};
+
+
 export const registerUser = (payload) => postJson("/auth/register", payload);
 
-export const verifyOtp = ({ email, otp }) => postJson("/auth/verify-otp", { email, otp });
+export const verifyOtp = ({ email, otp, purpose }) => postJson("/auth/verify-otp", { email, otp, purpose });
 
-export const resendOtp = (email) => postJson("/auth/resend-otp", { email });
+export const sendOtp = ({email, purpose }) => postJson("/auth/send-otp", { email, purpose });
 
 export const loginUser = ({ email, password }) => postJson("/auth/login", { email, password });
 
-export const resetPassword = ({ email, newPassword }) =>
-  postJson("/auth/forgot-password", { email, newPassword });
+export const resetPassword = ({ email, newPassword }) => {
+  console.log("Calling reset route:", "/auth/password-reset");
+  return postJson("/auth/password-reset", { email, newPassword });
+};
+export const verifyUser = ({ email}) => 
+  postJson("/auth/verify-user", {email});
+
+export const getAdminUsers = () => getJson("/auth/admin/users");
+
+export const approveUser = ({ id, role }) =>
+  putJson(`/auth/admin/users/${id}/approve`, { role });
+
+export const updateApprovedUserRole = ({ id, role }) =>
+  putJson(`/auth/admin/users/${id}/role`, { role });
+
+export const deleteUserById = (id) =>
+  deleteJson(`/auth/admin/users/${id}`);

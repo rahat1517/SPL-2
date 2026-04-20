@@ -16,7 +16,6 @@ export default function Submission() {
         {/* Heading */}
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Thank You!</h1>
 
-        {/* Message */}
         <p className="text-gray-600 text-lg mb-3">
           Your information has been submitted. Please verify your OTP first, then wait for Super Admin approval.
         </p>
