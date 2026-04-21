@@ -5,26 +5,26 @@ const stats = [
   { label: "Upcoming Payment Schedules", value: 9 },
 ];
 
-const recentTasks = [
-  {
-    id: 1,
-    task: "Verify tuition payment batch for BSSE 2nd Year",
-    deadline: "12 Apr 2026",
-    priority: "High",
-  },
-  {
-    id: 2,
-    task: "Generate testimonial for Mahin Islam (BSSE-1904)",
-    deadline: "13 Apr 2026",
-    priority: "Medium",
-  },
-  {
-    id: 3,
-    task: "Issue ECA certificate for Debate Club event",
-    deadline: "15 Apr 2026",
-    priority: "Low",
-  },
-];
+// const recentTasks = [
+//   {
+//     id: 1,
+//     task: "Verify tuition payment batch for BSSE 2nd Year",
+//     deadline: "12 Apr 2026",
+//     priority: "High",
+//   },
+//   {
+//     id: 2,
+//     task: "Generate testimonial for Mahin Islam (BSSE-1904)",
+//     deadline: "13 Apr 2026",
+//     priority: "Medium",
+//   },
+//   {
+//     id: 3,
+//     task: "Issue ECA certificate for Debate Club event",
+//     deadline: "15 Apr 2026",
+//     priority: "Low",
+//   },
+// ];
 
 export default function StaffDashboard() {
   return (
