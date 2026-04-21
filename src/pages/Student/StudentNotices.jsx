@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { readTeacherNotices } from "../../utils/noticeService";
-import MainLayout from "../../layouts/MainLayout";
+// import MainLayout from "../../layouts/MainLayout";
 
 const authorityNotices = [
   {
