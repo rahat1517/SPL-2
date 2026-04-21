@@ -6,12 +6,12 @@ import Login from "./pages/Auth/Login";
 import OtpVerification from "./pages/Auth/OtpVerification";
 import Register from "./pages/Auth/Register";
 import Submission from "./pages/Auth/Submission";
+import Profile from "./pages/Auth/Profile";
 
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminUsers from "./pages/Admin/AdminUsers";
 
 import StaffDashboard from "./pages/Staff/StaffDashboard";
-import StaffProfile from "./pages/Staff/StaffProfile";
 import StaffNotices from "./pages/Staff/StaffNotices";
 import StaffTestimonial from "./pages/Staff/StaffTestimonial";
 
@@ -20,10 +20,9 @@ import StudentDashboard from "./pages/Student/StudentDashboard";
 import StudentActivityCertificate from "./pages/Student/StudentECA";
 import StudentNotices from "./pages/Student/StudentNotices";
 import StudentPayment from "./pages/Student/StudentPayment";
-import StudentProfile from "./pages/Student/StudentProfile";
 import StudentTestimonial from "./pages/Student/StudentTestimonial";
 
-import TeacherProfile from "./pages/Teacher/TeacherProfile";
+
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard";
 import BudgetConfirmation from "./pages/Teacher/BudgetConfirmation";
 import ECAConfirmation from "./pages/Teacher/ECAConfirmation";
@@ -52,7 +51,7 @@ function App() {
           }
         >
           <Route path="dashboard" element={<StudentDashboard />} />
-          <Route path="profile" element={<StudentProfile />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="payments" element={<StudentPayment />} />
           <Route path="notices" element={<StudentNotices />} />
           <Route path="testimonial" element={<StudentTestimonial />} />
@@ -69,7 +68,7 @@ function App() {
           }
         >
           <Route path="dashboard" element={<TeacherDashboard />} />
-          <Route path="profile" element={<TeacherProfile />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="budgetconfirmation" element={<BudgetConfirmation />} />
           <Route path="ecaconfirmation" element={<ECAConfirmation />} />
           <Route path="notices" element={<TeacherNotices />} />
@@ -84,7 +83,7 @@ function App() {
           }
         >
           <Route path="dashboard" element={<StaffDashboard />} />
-          <Route path="profile" element={<StaffProfile />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="staffnotices" element={<StaffNotices />} />
           <Route path="testimonial" element={<StaffTestimonial />} />
         </Route>

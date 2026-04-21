@@ -1,5 +1,6 @@
+const jwt = require("jsonwebtoken");
 const express = require("express");
-const crypto = require("crypto");
+
 const { pool } = require("../config/db");
 const { sendOtpEmail } = require("../services/emailService");
 const {
@@ -117,10 +118,10 @@ router.post("/login", async (req, res) => {
     }
 
     const [rows] = await pool.query(
-      `SELECT id, first_name, last_name, email, role, status, is_verified, password_hash
+      `SELECT id, first_name, last_name, email, phone, role, reg_no, roll_no, status, is_verified, password_hash, batch
        FROM users
        WHERE email = ? LIMIT 1`,
-      [email],
+      [email]
     );
 
     if (rows.length === 0 || !verifyPassword(password, rows[0].password_hash)) {
@@ -141,7 +142,15 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    const token = crypto.randomBytes(32).toString("hex");
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
     return res.status(200).json({
       token,
@@ -150,8 +159,13 @@ router.post("/login", async (req, res) => {
         firstName: user.first_name,
         lastName: user.last_name,
         email: user.email,
+        phone: user.phone,
         role: user.role,
+        regNo: user.reg_no,
+        rollNo: user.roll_no,
         status: user.status,
+        batch: user.batch,
+        is_verified : Boolean(user.is_verified),
       },
     });
   } catch (error) {
@@ -337,7 +351,7 @@ router.post("/password-reset", async (req, res) => {
     }
 
     const [rows] = await pool.query(
-      `SELECT id, is_verified
+      `SELECT id, is_verified, status
        FROM users
        WHERE email = ? LIMIT 1`,
       [email],

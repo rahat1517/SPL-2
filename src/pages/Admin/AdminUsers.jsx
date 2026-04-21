@@ -1,8 +1,7 @@
-import { use, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   getAdminUsers,
   approveUser,
-  updateApprovedUserRole,
   deleteUserById,
 } from "../../api/authService";
 
@@ -356,7 +355,9 @@ export default function AdminUsers() {
               </button>
 
               <button
-                onClick={() => handleApprove(selectedActionUserId)}
+                onClick={() => {handleApprove(selectedActionUserId)
+                                setShowModal(false)
+                }}
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 type="button"
               >

@@ -28,18 +28,22 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
-    setIsSubmitting(true);
+  e.preventDefault();
+  setError("");
+  setSuccess("");
+  setIsSubmitting(true);
 
-    setError("");
-
+  try {
     const res = await loginUser({ email, password });
 
+    console.log("FULL LOGIN RESULT:", res);
+    console.log("USER INSIDE RESULT:", res.user);
+
     if (!res.ok) {
-      setIsSubmitting(false);
       const message = (res.message || "").toLowerCase();
+
+      setIsSubmitting(false);
+
       if (
         message.includes("verify otp") ||
         message.includes("verify your otp") ||
@@ -52,16 +56,22 @@ export default function Login() {
         return;
       }
 
-      setError(res.message);
+      setError(res.message || "Login failed.");
       return;
     }
 
     loginAuth(res.user, res.token);
     localStorage.setItem("role", res.user.role);
     setSuccess("Login successful! Redirecting...");
+    setIsSubmitting(false);
 
     setTimeout(() => navigate(getDashboardPathByRole(res.user.role)), 700);
-  };
+  } catch (error) {
+    console.error(error);
+    setError("Something went wrong during login.");
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

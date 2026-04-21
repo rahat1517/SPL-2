@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 const AUTH_KEY = "academix-auth";
 const readAuth = () => {
-  const parsed = JSON.parse(localStorage.getItem(AUTH_KEY) || "{}");
-  return {
-    user: parsed.user || null,
-    token: parsed.token || null,
-  };
+  try {
+    const parsed = JSON.parse(localStorage.getItem(AUTH_KEY) || "{}");
+    return {
+      user: parsed.user || null,
+      token: parsed.token || null,
+    };
+  } catch (error) {
+    return {
+      user: null,
+      token: null,
+    };
+  }
 };
 
 const notify = () => window.dispatchEvent(new Event("academix-auth-changed"));
 
 export const getAuthState = () => readAuth();
+export const getAuthToken = () => readAuth().token;
 
 export const loginAuth = (user, token) => {
   localStorage.setItem(AUTH_KEY, JSON.stringify({ user, token }));
